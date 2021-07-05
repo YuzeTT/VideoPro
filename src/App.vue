@@ -8,6 +8,22 @@
           <v-tooltip bottom>
             <template v-slot:activator="{ on, attrs }">
               <v-btn icon v-bind="attrs" v-on="on">
+                <v-icon>{{ svgPath.mdiEqualizer }}</v-icon>
+              </v-btn>
+            </template>
+            <span>概览</span>
+          </v-tooltip>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn icon v-bind="attrs" v-on="on">
+                <v-icon>{{ svgPath.mdiDatabaseEdit }}</v-icon>
+              </v-btn>
+            </template>
+            <span>编辑</span>
+          </v-tooltip>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn icon v-bind="attrs" v-on="on">
                 <v-icon>{{ svgPath.mdiAccount }}</v-icon>
               </v-btn>
             </template>
@@ -26,27 +42,65 @@
           class="mb-1"
           dense
           
-          type="info"
+          :type="alert.type"
         >
-          当前为Beta版本，推荐使用稳定版
+          {{ alert.text }}
         </v-alert>
       </div>
       
       <router-view/>
-     
+      <v-btn @click="info()">Axios</v-btn>
+      <div>{{axios_info}}</div>
     </v-main>
   </v-app>
 </template>
 
 <script>
-import { mdiAccount } from '@mdi/js'
+import { 
+  mdiAccount,
+  mdiEqualizer,
+  mdiDatabaseEdit,
+} from '@mdi/js'
+import axios from 'axios'
 export default {
   name: 'App',
 
   data: () => ({
-    svgPath: {mdiAccount},
-    tab: ''
+    svgPath: {
+      mdiAccount,
+      mdiEqualizer,
+      mdiDatabaseEdit,
+    },
+    alert: {
+      type: 'info',
+      text: '正在连接中...',
+    },
+    tab: '',
+    axios_info: ''
   }),
+  mounted () {
+    axios
+      .get('http://192.168.2.179:2048/status')
+      .then(response => {
+        if (response.data.status == 200) {
+          this.alert.type = 'success'
+          this.alert.text = '连接服务器成功'
+        }
+      })
+      .catch(error => {
+        console.log(error)
+        this.alert.type = 'error'
+        this.alert.text = '[本地浏览] 无法连接到服务器，请检查网络并刷新重试。' + error
+      })
+  },
+  methods: {
+    info: function() {
+      axios
+        .get('http://192.168.2.179:2048/status')
+        .then(response => (this.axios_info = response))
+      console.log(this.axios_info)
+    }
+  }
 };
 </script>
 
