@@ -1,7 +1,7 @@
 <template>
   <!-- <hello-world /> -->
   <div>
-   <div class="mx-2">
+   <div class="mx-3">
       <v-card
         class="mx-auto my-5 rounded-lg"
         max-width="400"
@@ -13,7 +13,7 @@
           </v-list-item-content>
         </v-list-item> -->
 
-        <v-list-item two-line>
+        <!-- <v-list-item two-line>
           <v-list-item-content>
             
             <v-list-item-subtitle>服务器状态</v-list-item-subtitle>
@@ -28,8 +28,19 @@
             </v-badge>
             </v-list-item-title>
           </v-list-item-content>
-        </v-list-item>
+        </v-list-item> -->
 
+      </v-card>
+
+      <v-card
+        class="mx-auto my-5 pa-3 rounded-0"
+        max-width="400"
+        tile
+        elevation="0"
+        style="border: 1px solid #3F6D8F;"
+        color="#EEEEEE"
+      >
+        连接正常。
       </v-card>
     </div>
   </div>
